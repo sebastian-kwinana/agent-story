@@ -1,0 +1,223 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Minimal Viable Agent Persona (MVAP) XML Schema Definition
+  Version: v1.0.0 (SemVer) · 2026.Q4 (CalVer)
+  
+  Purpose: Standardised schema for Agentic Intelligent Entity Specialised Agent Personas (AIESAPs).
+  Every AIESAP must validate against this schema to be considered a valid Agentic Intelligent Entity.
+  
+  Theoretical Grounding:
+    - Gödel's Incompleteness: D9 (Observer) provides the external measurement that a system
+      cannot completely derive from within itself.
+    - Category Theory: The MVAP is a morphism from the AIESAP type to an observable product type.
+    - Projected Geometric Algebra (PGA): Each dimension is a basis vector; the full MVAP is a
+      multivector encoding position in 9-dimensional persona space.
+    - Homotopy Type Theory (HoTT): The Observer dimension provides the path-equivalence witness.
+  
+  Created: 2026-04-17 12:23 AWST (+8)
+  Last Updated: 2026-04-17 12:23 AWST (+8)
+-->
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+           targetNamespace="urn:mvap:v1.0.0"
+           xmlns:mvap="urn:mvap:v1.0.0"
+           elementFormDefault="qualified"
+           version="1.0.0">
+
+  <!-- ============================================================ -->
+  <!-- ROOT ELEMENT                                                  -->
+  <!-- ============================================================ -->
+  <xs:element name="aiesap" type="mvap:AIESAPType">
+    <xs:annotation>
+      <xs:documentation>
+        Root element for an Agentic Intelligent Entity Specialised Agent Persona.
+        Contains all 8+1 dimensions of the Minimal Viable Agent Persona.
+      </xs:documentation>
+    </xs:annotation>
+  </xs:element>
+
+  <!-- ============================================================ -->
+  <!-- AIESAP COMPLEX TYPE (TOP-LEVEL)                               -->
+  <!-- ============================================================ -->
+  <xs:complexType name="AIESAPType">
+    <xs:sequence>
+      <!-- D1: Identity -->
+      <xs:element name="identity" type="mvap:IdentityType" />
+      <!-- D2: Capabilities -->
+      <xs:element name="capabilities" type="mvap:CapabilitiesType" />
+      <!-- D3: Constraints -->
+      <xs:element name="constraints" type="mvap:ConstraintsType" />
+      <!-- D4: State -->
+      <xs:element name="state" type="mvap:StateType" />
+      <!-- D5: Attention -->
+      <xs:element name="attention" type="mvap:AttentionType" />
+      <!-- D6: Governance -->
+      <xs:element name="governance" type="mvap:GovernanceType" />
+      <!-- D7: Lineage -->
+      <xs:element name="lineage" type="mvap:LineageType" />
+      <!-- D8: Output -->
+      <xs:element name="output" type="mvap:OutputType" />
+      <!-- D9: Observer (Gödelian Dimension — never self-reported) -->
+      <xs:element name="observer" type="mvap:ObserverType" minOccurs="0" />
+    </xs:sequence>
+    <xs:attribute name="schema_version" type="xs:string" use="required" />
+    <xs:attribute name="created" type="xs:string" use="required" />
+    <xs:attribute name="last_updated" type="xs:string" use="required" />
+  </xs:complexType>
+
+  <!-- ============================================================ -->
+  <!-- D1: IDENTITY                                                  -->
+  <!-- ============================================================ -->
+  <xs:complexType name="IdentityType">
+    <xs:sequence>
+      <xs:element name="agent_id" type="xs:string" />
+      <xs:element name="persona_name" type="xs:string" />
+      <xs:element name="acronym" type="xs:string" />
+      <xs:element name="trigger" type="xs:string" minOccurs="0" />
+      <xs:element name="provider" type="xs:string" />
+      <xs:element name="harness" type="xs:string" />
+      <xs:element name="persona_file" type="xs:string" minOccurs="0" />
+      <xs:element name="workflow_file" type="xs:string" minOccurs="0" />
+      <xs:element name="description" type="xs:string" minOccurs="0" />
+    </xs:sequence>
+  </xs:complexType>
+
+  <!-- ============================================================ -->
+  <!-- D2: CAPABILITIES                                              -->
+  <!-- ============================================================ -->
+  <xs:complexType name="CapabilitiesType">
+    <xs:sequence>
+      <xs:element name="capability" type="mvap:CapabilityType" maxOccurs="unbounded" />
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="CapabilityType">
+    <xs:simpleContent>
+      <xs:extension base="xs:string">
+        <xs:attribute name="id" type="xs:string" use="required" />
+      </xs:extension>
+    </xs:simpleContent>
+  </xs:complexType>
+
+  <!-- ============================================================ -->
+  <!-- D3: CONSTRAINTS                                               -->
+  <!-- ============================================================ -->
+  <xs:complexType name="ConstraintsType">
+    <xs:sequence>
+      <xs:element name="constraint" type="mvap:ConstraintType" maxOccurs="unbounded" />
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="ConstraintType">
+    <xs:simpleContent>
+      <xs:extension base="xs:string">
+        <xs:attribute name="id" type="xs:string" use="required" />
+        <xs:attribute name="severity" use="required">
+          <xs:simpleType>
+            <xs:restriction base="xs:string">
+              <xs:enumeration value="critical" />
+              <xs:enumeration value="high" />
+              <xs:enumeration value="medium" />
+              <xs:enumeration value="low" />
+            </xs:restriction>
+          </xs:simpleType>
+        </xs:attribute>
+      </xs:extension>
+    </xs:simpleContent>
+  </xs:complexType>
+
+  <!-- ============================================================ -->
+  <!-- D4: STATE                                                     -->
+  <!-- ============================================================ -->
+  <xs:complexType name="StateType">
+    <xs:sequence>
+      <xs:element name="current_gfsm_state" type="xs:string" />
+      <xs:element name="gfsm_schema" type="xs:string" minOccurs="0" />
+      <xs:element name="last_transition_timestamp" type="xs:string" minOccurs="0" />
+    </xs:sequence>
+  </xs:complexType>
+
+  <!-- ============================================================ -->
+  <!-- D5: ATTENTION                                                 -->
+  <!-- ============================================================ -->
+  <xs:complexType name="AttentionType">
+    <xs:sequence>
+      <xs:element name="attention_weight" type="xs:decimal" />
+      <xs:element name="target_nodes" minOccurs="0">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element name="node" type="xs:string" minOccurs="0" maxOccurs="unbounded" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="last_wail_entry_hash" type="xs:string" minOccurs="0" />
+    </xs:sequence>
+  </xs:complexType>
+
+  <!-- ============================================================ -->
+  <!-- D6: GOVERNANCE                                                -->
+  <!-- ============================================================ -->
+  <xs:complexType name="GovernanceType">
+    <xs:sequence>
+      <xs:element name="authorised_form" type="mvap:AuthorisedFormType" maxOccurs="unbounded" />
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="AuthorisedFormType">
+    <xs:simpleContent>
+      <xs:extension base="xs:string">
+        <xs:attribute name="level" type="xs:string" use="required" />
+      </xs:extension>
+    </xs:simpleContent>
+  </xs:complexType>
+
+  <!-- ============================================================ -->
+  <!-- D7: LINEAGE                                                   -->
+  <!-- ============================================================ -->
+  <xs:complexType name="LineageType">
+    <xs:sequence>
+      <xs:element name="entry" type="mvap:LineageEntryType" minOccurs="0" maxOccurs="unbounded" />
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="LineageEntryType">
+    <xs:sequence>
+      <xs:element name="hash" type="xs:string" />
+      <xs:element name="source" type="xs:string" />
+      <xs:element name="timestamp" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+
+  <!-- ============================================================ -->
+  <!-- D8: OUTPUT                                                    -->
+  <!-- ============================================================ -->
+  <xs:complexType name="OutputType">
+    <xs:sequence>
+      <xs:element name="section" type="mvap:OutputSectionType" maxOccurs="unbounded" />
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="OutputSectionType">
+    <xs:sequence>
+      <xs:element name="name" type="xs:string" />
+      <xs:element name="format" type="xs:string" />
+      <xs:element name="description" type="xs:string" minOccurs="0" />
+    </xs:sequence>
+    <xs:attribute name="id" type="xs:string" use="required" />
+    <xs:attribute name="required" type="xs:boolean" use="required" />
+  </xs:complexType>
+
+  <!-- ============================================================ -->
+  <!-- D9: OBSERVER (Gödelian Dimension)                             -->
+  <!-- ============================================================ -->
+  <xs:complexType name="ObserverType">
+    <xs:sequence>
+      <xs:element name="observer_id" type="xs:string" />
+      <xs:element name="observed_at" type="xs:string" />
+      <xs:element name="assessment" type="xs:string" />
+      <xs:element name="confidence" type="xs:decimal" minOccurs="0" />
+      <xs:element name="drift_detected" type="xs:boolean" minOccurs="0" />
+      <xs:element name="notes" type="xs:string" minOccurs="0" />
+    </xs:sequence>
+  </xs:complexType>
+
+</xs:schema>
