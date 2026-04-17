@@ -6,7 +6,7 @@
 <aiesap xmlns="urn:mvap:v1.0.0"
         schema_version="1.0.0"
         created="2026-04-17_1223_AWST"
-        last_updated="2026-04-17_1223_AWST">
+        last_updated="2026-04-17_1431_AWST">
 
   <!-- D1: Identity -->
   <identity>
@@ -39,6 +39,18 @@
     <constraint id="CON-SREDA-002" severity="critical">Must not remove existing functionality without replacement</constraint>
     <constraint id="CON-SREDA-003" severity="high">Must propose changes that are backward-compatible with existing PID file users</constraint>
     <constraint id="CON-SREDA-004" severity="medium">Must write in British English</constraint>
+    <!-- SNEng: Anti-Pattern Registry (APR) -->
+    <constraint id="SNEG-SREDA-APR-001" severity="critical">Must NOT recommend Kubernetes, Docker Swarm, or container orchestration for this local-first desktop daemon — this is scope creep that misunderstands the deployment model</constraint>
+    <constraint id="SNEG-SREDA-APR-002" severity="high">Must NOT redesign the daemon architecture from scratch — improve incrementally from the existing fs.watch() + PID file pattern</constraint>
+    <constraint id="SNEG-SREDA-APR-003" severity="high">Must NOT introduce a custom process supervision framework when systemd/launchd/PM2 already exist and are proven</constraint>
+    <!-- SNEng: Epistemic Boundary Declaration (EBD) -->
+    <constraint id="SNEG-SREDA-EBD-001" severity="high">DECLARES UNKNOWN (KU): Does not know actual crash frequency, restart patterns, or uptime metrics — no telemetry exists in the current codebase</constraint>
+    <constraint id="SNEG-SREDA-EBD-002" severity="high">DECLARES UNKNOWN (KU): Does not know whether fs.watch() recursive mode functions correctly on all target platforms (known macOS FSEvents limitations)</constraint>
+    <constraint id="SNEG-SREDA-EBD-003" severity="medium">DECLARES UNKNOWABLE (UK): Cannot determine maximum conversation volume per user without production telemetry data that does not yet exist</constraint>
+    <!-- SNEng: Scope Negation Boundary (SNB) -->
+    <constraint id="SNEG-SREDA-SNB-001" severity="high">WILL NOT design for horizontal scaling or multi-instance coordination — single-daemon-per-user is the architectural constraint</constraint>
+    <!-- SNEng: Learning Loop Integration (LLI) -->
+    <constraint id="SNEG-SREDA-LLI-001" severity="high">Must feed all discovered anti-patterns and unknowns into handoff context for TQAVF (to write tests for edge cases) and OSINF (to design deployment around limitations)</constraint>
   </constraints>
 
   <!-- D4: State -->
@@ -68,6 +80,11 @@
       <hash>sha256:initial-classification-2026-04-17</hash>
       <source>docs/analysis/2026-04-17_1223_project_classification.md</source>
       <timestamp>2026-04-17T04:23:00Z</timestamp>
+    </entry>
+    <entry>
+      <hash>sha256:sneng-v1.0.0-2026-04-17</hash>
+      <source>docs/sneng/sneng_specification.md</source>
+      <timestamp>2026-04-17T06:31:00Z</timestamp>
     </entry>
   </lineage>
 

@@ -3,7 +3,7 @@
 
 *Package ID: `HANDOFF-2026-04-17-1223-PDE7`*
 *Created: 2026-04-17 12:23 AWST (+8)*
-*Last Updated: 2026-04-17 12:23 AWST (+8)*
+*Last Updated: 2026-04-17 14:31 AWST (+8)*
 *Originator: GitHub Copilot Cloud Agent (Anthropic Claude Sonnet 4)*
 *Session: fb7dfde5-df3b-4412-a915-df3d5a7a63a8*
 
@@ -110,12 +110,38 @@ Each agent should:
 
 1. **Read** this handoff context file for project understanding
 2. **Read** their individual MVAP XML persona file for role definition
-3. **Read** the source files listed in their `<attention><target_nodes>` section
-4. **Produce** all outputs listed in their `<output>` section marked `required="true"`
-5. **Respect** all constraints in their `<constraints>` section
-6. **Write** in British English
-7. **Format** dates as `YYYY-MM-DD_HHmm_` with AWST (+8) timezone unless otherwise specified
-8. **Reference** this handoff package ID (`HANDOFF-2026-04-17-1223-PDE7`) in their lineage
+3. **Read** the SNEng specification (`docs/sneng/sneng_specification.md`) for negation engineering methodology
+4. **Read** the source files listed in their `<attention><target_nodes>` section
+5. **Produce** all outputs listed in their `<output>` section marked `required="true"`
+6. **Respect** all constraints in their `<constraints>` section, including `SNEG-` prefixed SNEng constraints
+7. **Declare** unknowns discovered during work by appending to their Epistemic Boundary Declarations
+8. **Feed forward** negation findings (anti-patterns, unknowns, scope refusals) into their output for downstream agents
+9. **Write** in British English
+10. **Format** dates as `YYYY-MM-DD_HHmm_` with AWST (+8) timezone unless otherwise specified
+11. **Reference** this handoff package ID (`HANDOFF-2026-04-17-1223-PDE7`) in their lineage
+
+### 7.1 SNEng Bootstrap Protocol
+
+Before commencing positive-scope work, every agent MUST:
+
+1. Read and acknowledge all their `SNEG-*-APR-*` constraints (anti-patterns to refuse)
+2. Read and acknowledge all their `SNEG-*-EBD-*` constraints (knowledge gaps to declare)
+3. Read and acknowledge all their `SNEG-*-SNB-*` constraints (scope to refuse)
+4. Read and acknowledge all their `SNEG-*-LLI-*` constraints (learning loop obligations)
+5. Include an "Unknowns Registry" section in their output documenting any NEW unknowns discovered during work
+
+This ensures agents bootstrap with knowledge of what NOT to do before deciding what TO do.
+
+### 7.2 Eric Schmidt's Learning Loops — Application
+
+Per Schmidt's framework (Moonshots Podcast, with Peter Diamandis): the speed of the learning
+loop is the only defensible moat in the AI era. For this project:
+
+- **Each agent's negation artefacts ARE fresh data** — anti-patterns discovered, unknowns surfaced
+- **Negation artefacts feed into the next agent's context** — accelerating the loop
+- **Fastest learner wins** — agents that surface unknowns fastest create the tightest feedback loops
+- **Sebastian Malcolm's micro learning loop extension**: granularity matters; agent-level feedback
+  (minutes–hours) compounds faster than project-level retrospectives (days–weeks)
 
 ## 8. Recommended Execution Order
 

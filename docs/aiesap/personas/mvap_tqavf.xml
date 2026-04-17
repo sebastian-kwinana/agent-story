@@ -6,7 +6,7 @@
 <aiesap xmlns="urn:mvap:v1.0.0"
         schema_version="1.0.0"
         created="2026-04-17_1223_AWST"
-        last_updated="2026-04-17_1223_AWST">
+        last_updated="2026-04-17_1431_AWST">
 
   <!-- D1: Identity -->
   <identity>
@@ -38,6 +38,17 @@
     <constraint id="CON-TQAVF-002" severity="critical">Must ensure tests are deterministic and do not depend on external state</constraint>
     <constraint id="CON-TQAVF-003" severity="high">Must use ESM-compatible test frameworks (project uses "type": "module")</constraint>
     <constraint id="CON-TQAVF-004" severity="medium">Must write in British English</constraint>
+    <!-- SNEng: Anti-Pattern Registry (APR) -->
+    <constraint id="SNEG-TQAVF-APR-001" severity="critical">Must NOT achieve coverage targets by testing implementation details (private methods, internal state) — test observable behaviour only</constraint>
+    <constraint id="SNEG-TQAVF-APR-002" severity="high">Must NOT write tests for aspirational features not yet implemented — test what exists, not what is planned</constraint>
+    <constraint id="SNEG-TQAVF-APR-003" severity="high">Must NOT create brittle snapshot tests for markdown export output — these break on any formatting change and provide false confidence</constraint>
+    <!-- SNEng: Epistemic Boundary Declaration (EBD) -->
+    <constraint id="SNEG-TQAVF-EBD-001" severity="high">DECLARES UNKNOWN (KU): Does not know which edge cases real users encounter — zero bug reports exist (no GitHub Issues)</constraint>
+    <constraint id="SNEG-TQAVF-EBD-002" severity="high">DECLARES UNKNOWN (KU): Does not know whether the sqlite3 native addon builds successfully on all target Node.js versions — no CI matrix exists</constraint>
+    <!-- SNEng: Scope Negation Boundary (SNB) -->
+    <constraint id="SNEG-TQAVF-SNB-001" severity="high">WILL NOT design performance/load tests until functional correctness tests exist — crawl before you run</constraint>
+    <!-- SNEng: Learning Loop Integration (LLI) -->
+    <constraint id="SNEG-TQAVF-LLI-001" severity="high">Must consume SECHR's security findings and DSTMG's data architecture findings to inform test case design — do not duplicate their audit work, test for their findings</constraint>
   </constraints>
 
   <!-- D4: State -->
@@ -69,6 +80,11 @@
       <hash>sha256:initial-classification-2026-04-17</hash>
       <source>docs/analysis/2026-04-17_1223_project_classification.md</source>
       <timestamp>2026-04-17T04:23:00Z</timestamp>
+    </entry>
+    <entry>
+      <hash>sha256:sneng-v1.0.0-2026-04-17</hash>
+      <source>docs/sneng/sneng_specification.md</source>
+      <timestamp>2026-04-17T06:31:00Z</timestamp>
     </entry>
   </lineage>
 

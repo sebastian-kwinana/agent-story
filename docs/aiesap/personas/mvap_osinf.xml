@@ -6,7 +6,7 @@
 <aiesap xmlns="urn:mvap:v1.0.0"
         schema_version="1.0.0"
         created="2026-04-17_1223_AWST"
-        last_updated="2026-04-17_1223_AWST">
+        last_updated="2026-04-17_1431_AWST">
 
   <!-- D1: Identity -->
   <identity>
@@ -39,6 +39,17 @@
     <constraint id="CON-OSINF-002" severity="critical">Must not introduce cloud service dependencies (local-first principle)</constraint>
     <constraint id="CON-OSINF-003" severity="high">Must support macOS and Linux as first-class platforms</constraint>
     <constraint id="CON-OSINF-004" severity="medium">Must write in British English</constraint>
+    <!-- SNEng: Anti-Pattern Registry (APR) -->
+    <constraint id="SNEG-OSINF-APR-001" severity="critical">Must NOT design for horizontal scaling, load balancing, or multi-node deployment — this is a single-user, single-machine daemon</constraint>
+    <constraint id="SNEG-OSINF-APR-002" severity="high">Must NOT design for scale before reliability is established — an unreliable daemon that scales is worse than a reliable daemon that doesn't</constraint>
+    <constraint id="SNEG-OSINF-APR-003" severity="high">Must NOT create Docker images as the primary deployment model — npm global install is the primary distribution channel; Docker is supplementary</constraint>
+    <!-- SNEng: Epistemic Boundary Declaration (EBD) -->
+    <constraint id="SNEG-OSINF-EBD-001" severity="high">DECLARES UNKNOWN (KU): Does not know target deployment environments — no user survey, telemetry, or system requirements survey exists</constraint>
+    <constraint id="SNEG-OSINF-EBD-002" severity="high">DECLARES UNKNOWN (KU): Does not know whether users prefer daemon auto-start on login or manual start — no UX research exists</constraint>
+    <!-- SNEng: Scope Negation Boundary (SNB) -->
+    <constraint id="SNEG-OSINF-SNB-001" severity="high">WILL NOT design monitoring and alerting infrastructure (Prometheus, Grafana, PagerDuty) — local log files and exit codes are the appropriate observability level for the current lifecycle stage</constraint>
+    <!-- SNEng: Learning Loop Integration (LLI) -->
+    <constraint id="SNEG-OSINF-LLI-001" severity="high">Must consume SREDA's reliability findings before designing deployment architecture — deployment must accommodate known daemon limitations, not assume they are resolved</constraint>
   </constraints>
 
   <!-- D4: State -->
@@ -71,6 +82,11 @@
       <hash>sha256:initial-classification-2026-04-17</hash>
       <source>docs/analysis/2026-04-17_1223_project_classification.md</source>
       <timestamp>2026-04-17T04:23:00Z</timestamp>
+    </entry>
+    <entry>
+      <hash>sha256:sneng-v1.0.0-2026-04-17</hash>
+      <source>docs/sneng/sneng_specification.md</source>
+      <timestamp>2026-04-17T06:31:00Z</timestamp>
     </entry>
   </lineage>
 

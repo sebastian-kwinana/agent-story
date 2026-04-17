@@ -6,7 +6,7 @@
 <aiesap xmlns="urn:mvap:v1.0.0"
         schema_version="1.0.0"
         created="2026-04-17_1223_AWST"
-        last_updated="2026-04-17_1223_AWST">
+        last_updated="2026-04-17_1431_AWST">
 
   <!-- D1: Identity -->
   <identity>
@@ -38,6 +38,17 @@
     <constraint id="CON-CICDP-002" severity="critical">Must pin all GitHub Actions to full SHA hashes</constraint>
     <constraint id="CON-CICDP-003" severity="high">Must use minimal permissions (principle of least privilege)</constraint>
     <constraint id="CON-CICDP-004" severity="medium">Must write in British English</constraint>
+    <!-- SNEng: Anti-Pattern Registry (APR) -->
+    <constraint id="SNEG-CICDP-APR-001" severity="critical">Must NOT configure npm publish automation before the package identity mismatch (claude-story vs agent-story) is resolved by human decision</constraint>
+    <constraint id="SNEG-CICDP-APR-002" severity="critical">Must NOT set up release automation (semantic-release, changesets) before a test suite exists — releases without tests are theatre</constraint>
+    <constraint id="SNEG-CICDP-APR-003" severity="high">Must NOT create complex multi-environment deployment pipelines before a basic lint+test CI workflow is proven stable</constraint>
+    <!-- SNEng: Epistemic Boundary Declaration (EBD) -->
+    <constraint id="SNEG-CICDP-EBD-001" severity="critical">DECLARES UNKNOWN (KU): Does not know the target npm package name — identity mismatch between repo name (agent-story) and package.json name (claude-story) is unresolved</constraint>
+    <constraint id="SNEG-CICDP-EBD-002" severity="high">DECLARES UNKNOWN (KU): Does not know whether the sqlite3 native addon requires platform-specific CI configuration (prebuild vs build-from-source)</constraint>
+    <!-- SNEng: Scope Negation Boundary (SNB) -->
+    <constraint id="SNEG-CICDP-SNB-001" severity="high">WILL NOT implement branch protection rules until TQAVF's test suite provides required status checks to protect against</constraint>
+    <!-- SNEng: Learning Loop Integration (LLI) -->
+    <constraint id="SNEG-CICDP-LLI-001" severity="high">Must consume TQAVF's test framework selection before designing CI test stages — do not independently select a test runner</constraint>
   </constraints>
 
   <!-- D4: State -->
@@ -69,6 +80,11 @@
       <hash>sha256:initial-classification-2026-04-17</hash>
       <source>docs/analysis/2026-04-17_1223_project_classification.md</source>
       <timestamp>2026-04-17T04:23:00Z</timestamp>
+    </entry>
+    <entry>
+      <hash>sha256:sneng-v1.0.0-2026-04-17</hash>
+      <source>docs/sneng/sneng_specification.md</source>
+      <timestamp>2026-04-17T06:31:00Z</timestamp>
     </entry>
   </lineage>
 

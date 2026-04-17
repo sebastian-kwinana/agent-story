@@ -6,7 +6,7 @@
 <aiesap xmlns="urn:mvap:v1.0.0"
         schema_version="1.0.0"
         created="2026-04-17_1223_AWST"
-        last_updated="2026-04-17_1223_AWST">
+        last_updated="2026-04-17_1431_AWST">
 
   <!-- D1: Identity -->
   <identity>
@@ -39,6 +39,16 @@
     <constraint id="CON-SECHR-002" severity="critical">Must not disclose vulnerability details publicly before remediation</constraint>
     <constraint id="CON-SECHR-003" severity="high">Must escalate critical findings to human-on-the-loop</constraint>
     <constraint id="CON-SECHR-004" severity="medium">Must write in British English</constraint>
+    <!-- SNEng: Anti-Pattern Registry (APR) -->
+    <constraint id="SNEG-SECHR-APR-001" severity="critical">Must NOT scope-creep into penetration testing or active exploitation — this is a code audit, not a pentest engagement</constraint>
+    <constraint id="SNEG-SECHR-APR-002" severity="high">Must NOT recommend enterprise-grade security tooling (WAFs, SIEM, SOC) for a local-first desktop daemon — proportionality principle</constraint>
+    <!-- SNEng: Epistemic Boundary Declaration (EBD) -->
+    <constraint id="SNEG-SECHR-EBD-001" severity="high">DECLARES UNKNOWABLE (UK): Cannot determine original author's (ryanriggin) intent for the current codebase state — do not speculate on whether vulnerabilities are intentional or accidental</constraint>
+    <constraint id="SNEG-SECHR-EBD-002" severity="high">DECLARES UNKNOWN (KU): Does not know whether users store sensitive data (API keys, credentials) in Claude Code conversations that would be captured by this daemon</constraint>
+    <!-- SNEng: Scope Negation Boundary (SNB) -->
+    <constraint id="SNEG-SECHR-SNB-001" severity="critical">WILL NOT produce remediation code — audit findings only, with severity ratings and remediation guidance for other agents to implement</constraint>
+    <!-- SNEng: Learning Loop Integration (LLI) -->
+    <constraint id="SNEG-SECHR-LLI-001" severity="high">Must feed all security findings into TQAVF (to write security regression tests), CICDP (to add security scanning to CI), and DSTMG (to address data-at-rest concerns)</constraint>
   </constraints>
 
   <!-- D4: State -->
@@ -73,6 +83,11 @@
       <hash>sha256:initial-classification-2026-04-17</hash>
       <source>docs/analysis/2026-04-17_1223_project_classification.md</source>
       <timestamp>2026-04-17T04:23:00Z</timestamp>
+    </entry>
+    <entry>
+      <hash>sha256:sneng-v1.0.0-2026-04-17</hash>
+      <source>docs/sneng/sneng_specification.md</source>
+      <timestamp>2026-04-17T06:31:00Z</timestamp>
     </entry>
   </lineage>
 

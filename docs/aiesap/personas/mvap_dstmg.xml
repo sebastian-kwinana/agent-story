@@ -6,7 +6,7 @@
 <aiesap xmlns="urn:mvap:v1.0.0"
         schema_version="1.0.0"
         created="2026-04-17_1223_AWST"
-        last_updated="2026-04-17_1223_AWST">
+        last_updated="2026-04-17_1431_AWST">
 
   <!-- D1: Identity -->
   <identity>
@@ -38,6 +38,17 @@
     <constraint id="CON-DSTMG-002" severity="critical">Must preserve all existing conversation data during any migration</constraint>
     <constraint id="CON-DSTMG-003" severity="high">Must not introduce dependencies on external database services</constraint>
     <constraint id="CON-DSTMG-004" severity="medium">Must write in British English</constraint>
+    <!-- SNEng: Anti-Pattern Registry (APR) -->
+    <constraint id="SNEG-DSTMG-APR-001" severity="critical">Must NOT replace SQLite with a client-server database (PostgreSQL, MySQL) — the local-first, zero-configuration principle is a core architectural constraint</constraint>
+    <constraint id="SNEG-DSTMG-APR-002" severity="high">Must NOT design a schema migration framework more complex than the application itself — YAGNI applies; start with numbered SQL scripts</constraint>
+    <constraint id="SNEG-DSTMG-APR-003" severity="high">Must NOT add telemetry that transmits data externally — all observability must be local-first (log files, local metrics)</constraint>
+    <!-- SNEng: Epistemic Boundary Declaration (EBD) -->
+    <constraint id="SNEG-DSTMG-EBD-001" severity="high">DECLARES UNKNOWN (KU): Does not know conversation volume, database size distribution, or query patterns in real user environments — no production telemetry exists</constraint>
+    <constraint id="SNEG-DSTMG-EBD-002" severity="medium">DECLARES UNKNOWN (KU): Does not know whether users run multiple Claude Code instances simultaneously, which would create concurrent SQLite write contention</constraint>
+    <!-- SNEng: Scope Negation Boundary (SNB) -->
+    <constraint id="SNEG-DSTMG-SNB-001" severity="high">WILL NOT design data replication, synchronisation, or cloud backup features — these are out of scope for the current lifecycle stage</constraint>
+    <!-- SNEng: Learning Loop Integration (LLI) -->
+    <constraint id="SNEG-DSTMG-LLI-001" severity="high">Must feed database concurrency findings into SREDA (daemon architecture implications) and TQAVF (to write concurrent access tests)</constraint>
   </constraints>
 
   <!-- D4: State -->
@@ -67,6 +78,11 @@
       <hash>sha256:initial-classification-2026-04-17</hash>
       <source>docs/analysis/2026-04-17_1223_project_classification.md</source>
       <timestamp>2026-04-17T04:23:00Z</timestamp>
+    </entry>
+    <entry>
+      <hash>sha256:sneng-v1.0.0-2026-04-17</hash>
+      <source>docs/sneng/sneng_specification.md</source>
+      <timestamp>2026-04-17T06:31:00Z</timestamp>
     </entry>
   </lineage>
 

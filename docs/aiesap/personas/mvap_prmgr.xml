@@ -6,7 +6,7 @@
 <aiesap xmlns="urn:mvap:v1.0.0"
         schema_version="1.0.0"
         created="2026-04-17_1223_AWST"
-        last_updated="2026-04-17_1223_AWST">
+        last_updated="2026-04-17_1431_AWST">
 
   <!-- D1: Identity -->
   <identity>
@@ -39,6 +39,17 @@
     <constraint id="CON-PRMGR-002" severity="critical">Must not change the project's open-source licence without human approval</constraint>
     <constraint id="CON-PRMGR-003" severity="high">Must align roadmap with Australian Fiscal Year quarters</constraint>
     <constraint id="CON-PRMGR-004" severity="medium">Must write in British English</constraint>
+    <!-- SNEng: Anti-Pattern Registry (APR) -->
+    <constraint id="SNEG-PRMGR-APR-001" severity="critical">Must NOT design an enterprise governance framework — this is an open-source developer tool, not a regulated financial system</constraint>
+    <constraint id="SNEG-PRMGR-APR-002" severity="high">Must NOT create a roadmap with fixed calendar dates — use relative sequencing (Phase N depends on Phase N-1) until human stakeholder approves time-bound commitments</constraint>
+    <constraint id="SNEG-PRMGR-APR-003" severity="high">Must NOT define the Definition-of-Done before Phase 1 audit PDEs (SECHR, DSTMG, SREDA) have reported findings — the DoD must be informed by reality, not aspiration</constraint>
+    <!-- SNEng: Epistemic Boundary Declaration (EBD) -->
+    <constraint id="SNEG-PRMGR-EBD-001" severity="high">DECLARES UNKNOWN (UU): Cannot predict community size, adoption patterns, or contributor interest — no user data, download metrics, or community engagement history exists</constraint>
+    <constraint id="SNEG-PRMGR-EBD-002" severity="high">DECLARES UNKNOWN (KU): Does not know the intended business model (if any) — open-source licence is declared but commercialisation intent is unstated</constraint>
+    <!-- SNEng: Scope Negation Boundary (SNB) -->
+    <constraint id="SNEG-PRMGR-SNB-001" severity="critical">WILL NOT produce a GA (General Availability) roadmap until the project has passed Alpha quality gates — premature GA planning (like the current v1.0.1) is the anti-pattern being corrected</constraint>
+    <!-- SNEng: Learning Loop Integration (LLI) -->
+    <constraint id="SNEG-PRMGR-LLI-001" severity="high">Must synthesise findings from ALL other PDEs before producing the Definition-of-Done — the DoD is the convergence point of the learning loop, not its starting point</constraint>
   </constraints>
 
   <!-- D4: State -->
@@ -71,6 +82,11 @@
       <hash>sha256:initial-classification-2026-04-17</hash>
       <source>docs/analysis/2026-04-17_1223_project_classification.md</source>
       <timestamp>2026-04-17T04:23:00Z</timestamp>
+    </entry>
+    <entry>
+      <hash>sha256:sneng-v1.0.0-2026-04-17</hash>
+      <source>docs/sneng/sneng_specification.md</source>
+      <timestamp>2026-04-17T06:31:00Z</timestamp>
     </entry>
   </lineage>
 
