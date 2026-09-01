@@ -1,0 +1,63 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.backends.legacy:build"
+
+[project]
+name = "agent-story-list-agents"
+version = "0.1.0"
+description = "POSIX CLI tool to discover installed AI agent harnesses — Hexagonal Architecture, stdlib only"
+readme = "README.md"
+license = { text = "MIT" }
+requires-python = ">=3.10"
+keywords = ["ai", "agent", "cli", "hexagonal-architecture", "posix"]
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Environment :: Console",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: POSIX",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Topic :: Software Development :: Libraries :: Application Frameworks",
+    "Topic :: Utilities",
+]
+
+[project.scripts]
+list-agents = "list_agents:main"
+
+[project.urls]
+Homepage = "https://github.com/sebastian-kwinana/agent-story"
+"Bug Tracker" = "https://github.com/sebastian-kwinana/agent-story/issues"
+Changelog = "https://github.com/sebastian-kwinana/agent-story/blob/main/CHANGELOG.md"
+
+[tool.setuptools.py-modules]
+# Single-file module — no package directory needed
+list_agents = []
+
+# ── Linter configuration (ruff — fast Python linter) ─────────────────
+# Not yet enforced in CI; see CONTRIBUTING.md §10 for roadmap.
+[tool.ruff]
+line-length = 100
+target-version = "py310"
+
+[tool.ruff.lint]
+select = ["E", "F", "W", "I", "UP", "B", "C4", "SIM"]
+ignore = ["B008"]   # allow function calls in default args (argparse)
+
+# ── Type checker configuration (mypy) ─────────────────────────────────
+# Not yet enforced in CI; see CONTRIBUTING.md §10 for roadmap.
+[tool.mypy]
+python_version = "3.10"
+strict = true
+ignore_missing_imports = true
+
+# ── Coverage configuration ────────────────────────────────────────────
+[tool.coverage.run]
+branch = true
+source = ["list_agents"]
+
+[tool.coverage.report]
+fail_under = 80
+show_missing = true
