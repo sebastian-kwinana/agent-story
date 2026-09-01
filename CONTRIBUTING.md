@@ -41,12 +41,17 @@ agent-story/
 │       └── ci.yml              # GitHub Actions CI pipeline
 ├── bin/
 │   └── claude-story.js         # Node.js CLI entry point
-├── docs/                       # Architecture decision records and specs
+├── docs/
+│   ├── adr/                    # Architecture Decision Records
+│   │   └── ADR-0001-*.md       # Python stdlib choice for list-agents
+│   ├── analysis/               # Engineering analysis documents
+│   └── ...                     # Other specs and snapshots
 ├── lib/                        # Node.js daemon modules
 ├── schemas/                    # XML schemas (mvap)
 ├── list_agents.py              # Python CLI — Hexagonal Architecture
 ├── test_list_agents.py         # Python BDD/TDD test suite
 ├── requirements-ci.txt         # Hash-pinned Python CI dependencies
+├── pyproject.toml              # PEP 517/518 Python packaging metadata
 ├── package.json                # Node.js package manifest
 ├── CHANGELOG.md                # Version history (Keep-a-Changelog format)
 ├── CONTRIBUTING.md             # This file
@@ -139,6 +144,19 @@ Follow the existing code style in `lib/` and `bin/`. No linter is enforced at th
 ---
 
 ## 6. Architecture decisions
+
+### Architecture Decision Records (ADRs)
+
+Significant architectural decisions are recorded in `docs/adr/` using a lightweight ADR format.
+Each ADR is numbered sequentially and answers: context, decision, categorised reasoning,
+consequences, and alternatives considered.
+
+| ADR | Title | Status |
+|---|---|---|
+| [ADR-0001](docs/adr/ADR-0001-python-stdlib-list-agents.md) | Implement `list-agents` in Python Standard Library, Not Node.js | Accepted |
+
+When making a significant architectural decision, create a new ADR file before (or alongside) the
+implementation PR.
 
 ### `list_agents.py` — Hexagonal Architecture
 
