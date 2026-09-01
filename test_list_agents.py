@@ -514,5 +514,182 @@ class TestAdversarialScenarios(unittest.TestCase):
             # (home is td, so ~/.dsh does not exist from adapter's perspective)
 
 
+# ─────────────────────────────────────────────────────────────────────
+# PiAgent adapter tests (filesystem-isolated)
+# ─────────────────────────────────────────────────────────────────────
+
+class TestPiAgentAdapter(unittest.TestCase):
+
+    def _run_discover(self, home: Path) -> Optional[AgentMetadata]:
+        """Call the real PiAgentAdapter.discover() with a patched home dir."""
+        import list_agents as la
+        orig = la.Path.home
+        la.Path.home = staticmethod(lambda: home)
+        try:
+            return PiAgentAdapter().discover()
+        finally:
+            la.Path.home = orig
+
+    def test_returns_none_when_directory_absent(self):
+        with tempfile.TemporaryDirectory() as td:
+            result = self._run_discover(Path(td))
+        self.assertIsNone(result)
+
+    def test_discovers_with_settings_file(self):
+        with tempfile.TemporaryDirectory() as td:
+            pi_dir = Path(td) / ".pi"
+            pi_dir.mkdir()
+            settings = pi_dir / "settings.json"
+            settings.write_text('{"model": "llama3"}', encoding="utf-8")
+
+            result = self._run_discover(Path(td))
+
+        self.assertIsNotNone(result)
+        self.assertTrue(result.is_installed)
+        self.assertEqual(result.harness_id, "pi-agent")
+        self.assertEqual(result.config_location, str(settings))
+        self.assertEqual(result.recent_sessions, [])
+
+    def test_discovers_history_sessions(self):
+        with tempfile.TemporaryDirectory() as td:
+            pi_dir = Path(td) / ".pi"
+            history_dir = pi_dir / "history"
+            history_dir.mkdir(parents=True)
+            (history_dir / "sess-a.jsonl").write_text('{"msg":"hi"}\n', encoding="utf-8")
+
+            result = self._run_discover(Path(td))
+
+        self.assertIsNotNone(result)
+        self.assertEqual(len(result.recent_sessions), 1)
+        self.assertEqual(result.recent_sessions[0].session_id, "sess-a")
+
+    def test_falls_back_to_models_config(self):
+        with tempfile.TemporaryDirectory() as td:
+            pi_dir = Path(td) / ".pi"
+            agent_dir = pi_dir / "agent"
+            agent_dir.mkdir(parents=True)
+            models = agent_dir / "models.json"
+            models.write_text('{}', encoding="utf-8")
+
+            result = self._run_discover(Path(td))
+
+        self.assertIsNotNone(result)
+        self.assertEqual(result.config_location, str(models))
+
+    def test_falls_back_to_pi_dir_when_no_config_files(self):
+        with tempfile.TemporaryDirectory() as td:
+            pi_dir = Path(td) / ".pi"
+            pi_dir.mkdir()
+
+            result = self._run_discover(Path(td))
+
+        self.assertIsNotNone(result)
+        self.assertEqual(result.config_location, str(pi_dir))
+
+
+# ─────────────────────────────────────────────────────────────────────
+# PrimeAgent adapter tests (filesystem-isolated)
+# ─────────────────────────────────────────────────────────────────────
+
+class TestPrimeAgentAdapter(unittest.TestCase):
+
+    def _run_discover(self, home: Path) -> Optional[AgentMetadata]:
+        import list_agents as la
+        orig = la.Path.home
+        la.Path.home = staticmethod(lambda: home)
+        try:
+            return PrimeAgentAdapter().discover()
+        finally:
+            la.Path.home = orig
+
+    def test_returns_none_when_directory_absent(self):
+        with tempfile.TemporaryDirectory() as td:
+            result = self._run_discover(Path(td))
+        self.assertIsNone(result)
+
+    def test_discovers_with_manifest(self):
+        with tempfile.TemporaryDirectory() as td:
+            prime_dir = Path(td) / ".prime"
+            prime_dir.mkdir()
+            manifest = prime_dir / "manifest.json"
+            manifest.write_text(
+                json.dumps({"capabilities": ["tool-a", "tool-b"]}), encoding="utf-8"
+            )
+
+            result = self._run_discover(Path(td))
+
+        self.assertIsNotNone(result)
+        self.assertIn("tool-a", result.capabilities)
+        self.assertEqual(result.config_location, str(manifest))
+
+    def test_discovers_yaml_workspace_sessions(self):
+        with tempfile.TemporaryDirectory() as td:
+            prime_dir = Path(td) / ".prime"
+            workspaces = prime_dir / "workspaces"
+            workspaces.mkdir(parents=True)
+            ws = workspaces / "alpha.yaml"
+            ws.write_text("description: Alpha workspace\nmodel: gpt4\n", encoding="utf-8")
+
+            result = self._run_discover(Path(td))
+
+        self.assertIsNotNone(result)
+        self.assertEqual(len(result.recent_sessions), 1)
+        self.assertIn("Alpha workspace", result.recent_sessions[0].preview)
+
+    def test_discovers_json_workspace_sessions_when_no_yaml(self):
+        with tempfile.TemporaryDirectory() as td:
+            prime_dir = Path(td) / ".prime"
+            workspaces = prime_dir / "workspaces"
+            workspaces.mkdir(parents=True)
+            (workspaces / "beta.json").write_text('{"name":"beta"}', encoding="utf-8")
+
+            result = self._run_discover(Path(td))
+
+        self.assertIsNotNone(result)
+        self.assertEqual(len(result.recent_sessions), 1)
+
+    def test_uses_default_caps_when_manifest_missing(self):
+        with tempfile.TemporaryDirectory() as td:
+            prime_dir = Path(td) / ".prime"
+            prime_dir.mkdir()
+
+            result = self._run_discover(Path(td))
+
+        self.assertIsNotNone(result)
+        self.assertIn("self-modifying-capabilities", result.capabilities)
+
+
+# ─────────────────────────────────────────────────────────────────────
+# ClaudeCode legacy JSONL fallback path
+# ─────────────────────────────────────────────────────────────────────
+
+class TestClaudeCodeLegacyPath(unittest.TestCase):
+
+    def _run_discover(self, home: Path) -> Optional[AgentMetadata]:
+        import list_agents as la
+        orig = la.Path.home
+        la.Path.home = staticmethod(lambda: home)
+        try:
+            with patch("list_agents.shutil.which", return_value=None):
+                return ClaudeCodeAdapter().discover()
+        finally:
+            la.Path.home = orig
+
+    def test_falls_back_to_jsonl_projects_when_no_sessions_dir(self):
+        """Coverage for the legacy ~/.claude/projects/**/*.jsonl fallback."""
+        with tempfile.TemporaryDirectory() as td:
+            home = Path(td)
+            projects_dir = home / ".claude" / "projects" / "abc123"
+            projects_dir.mkdir(parents=True)
+            (projects_dir / "conv1.jsonl").write_text(
+                '{"role":"user","content":"hello"}\n', encoding="utf-8"
+            )
+            # No sessions/ directory → forces the legacy path
+            result = self._run_discover(home)
+
+        self.assertIsNotNone(result)
+        self.assertEqual(len(result.recent_sessions), 1)
+
+
 if __name__ == "__main__":
     unittest.main(verbosity=2)
